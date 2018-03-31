@@ -43,7 +43,7 @@ class CasinoCommand : Command {
 
         Euna.data.increaseMoney(author, money)
 
-        channel.sendMessage("**${author.asMention}, you spent $$amount and won $$money. New balance: $${Euna.data.getMoney(author)}. Chance: $multi%.**").queue()
+        channel.sendMessage("${author.asMention}, you spent $$amount and won $$money. New balance: $${Euna.data.getMoney(author)}. Chance: $multi%.").queue()
     }
 
     private fun getMultiplier(guild: Guild): Double {
