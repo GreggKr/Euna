@@ -19,6 +19,14 @@ class WeightedRandom {
         sum += chance
     }
 
+    fun getChance(value: Double): Double {
+        for (e in values) {
+            if (e.key == value) return e.value
+        }
+
+        return 0.0
+    }
+
     fun get(): Double {
         val random = Math.random()
         val ratio = 1.0f / sum

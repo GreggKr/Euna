@@ -35,21 +35,21 @@ class CasinoCommand : Command {
             return
         }
 
+        val random = WeightedRandom()
+        random.addAll(Euna.data.getCasinoChances(message.guild))
+
+        val multi = random.get()
+
         Euna.data.decreaseMoney(author, amount * 1.0)
-
-        val multi = getMultiplier(message.guild)
-
         val money = amount * multi
 
         Euna.data.increaseMoney(author, money)
 
-        channel.sendMessage("${author.asMention}, you spent $$amount and won $$money. New balance: $${Euna.data.getMoney(author)}. Chance: $multi%.").queue()
-    }
+        val net = amount * multi - amount
 
-    private fun getMultiplier(guild: Guild): Double {
-        val random = WeightedRandom()
-        random.addAll(Euna.data.getCasinoChances(guild))
 
-        return random.get()
-    }
-}
+        channel.sendMessage("You spent $$amount and won $$money for a net gain of $$net, ${author.asMention}.\n" +
+                "$amount * $multi - $amount = $net; ${random.getChance(multi)}%").queue()
+//        channel.sendMessage("${author.asMention}, you spent $$amount and won $$money. New balance: $${Euna.data.getMoney(author)}. Chance: $multi%.").queue()
+                }
+                }
