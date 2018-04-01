@@ -1,16 +1,16 @@
 package me.greggkr.euna.util
 
-class WeightedRandom {
-    private val values = HashMap<Double, Double>()
+class WeightedRandom<K> {
+    private val values = HashMap<K, Double>()
     private var sum = 0.0
 
-    fun addAll(map: Map<Double, Double>) {
+    fun addAll(map: Map<K, Double>) {
         for (e in map) {
             add(e.key, e.value)
         }
     }
 
-    fun add(value: Double, chance: Double) {
+    fun add(value: K, chance: Double) {
         if (values[value] != null) {
             sum -= values[value]!!
         }
@@ -19,7 +19,7 @@ class WeightedRandom {
         sum += chance
     }
 
-    fun getChance(value: Double): Double {
+    fun getChance(value: K): Double {
         for (e in values) {
             if (e.key == value) return e.value
         }
@@ -27,7 +27,7 @@ class WeightedRandom {
         return 0.0
     }
 
-    fun get(): Double {
+    fun get(): K? {
         val random = Math.random()
         val ratio = 1.0f / sum
         var tmp = 0.0
@@ -43,7 +43,6 @@ class WeightedRandom {
             }
         }
 
-        println("no")
-        return 0.0
+        return null
     }
 }
