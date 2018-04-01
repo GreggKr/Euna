@@ -2,6 +2,7 @@ package me.greggkr.euna.util
 
 import me.diax.comportment.jdacommand.Command
 import me.greggkr.euna.commands.econ.CasinoCommand
+import me.greggkr.euna.commands.econ.FishCommand
 import me.greggkr.euna.commands.econ.MoneyCommand
 import me.greggkr.euna.commands.econ.TransferCommand
 import me.greggkr.euna.commands.extra.AboutCommand
@@ -15,6 +16,7 @@ class CommandReg {
         register(
                 /* Economy */
                 CasinoCommand(),
+                FishCommand(),
                 MoneyCommand(),
                 TransferCommand(),
 
