@@ -9,6 +9,8 @@ import kotlin.collections.HashMap
 
 class Data(private val db: Database) {
     private val defaultCasinoChances = HashMap<Double, Double>()
+    //    HashMap<Pair<Money, Fish>, Chance>
+    private val defaultFishChances = HashMap<Pair<Double, String>, Double>()
     private val owners: List<Long> = Arrays.asList(
             184041169796333568L
     )
@@ -23,6 +25,15 @@ class Data(private val db: Database) {
         defaultCasinoChances[2.5] = 2.0
         defaultCasinoChances[5.0] = 1.5
         defaultCasinoChances[10.0] = 0.5
+
+        defaultFishChances[Pair(0.0, "Nothing")] = 20.0
+        defaultFishChances[Pair(10.0, "Common Fish")] = 35.0
+        defaultFishChances[Pair(15.0, "Uncommon Fish")] = 30.0
+        defaultFishChances[Pair(30.0, "Rare Fish")] = 10.0
+        defaultFishChances[Pair(50.0, "Epic Fish")] = 5.0
+        defaultFishChances[Pair(100.0, "Megaladon (Mythical)")] = 0.0
+        defaultFishChances[Pair(100.0, "The Loch Ness Monster (Mythical)")] = 0.0
+        defaultFishChances[Pair(100.0, "Leviathan (Mythical)")] = 0.0
     }
 
     fun getOwner(): String {
@@ -52,6 +63,11 @@ class Data(private val db: Database) {
     fun getCasinoChances(guild: Guild): Map<Double, Double> {
         val chances = db.getCasinoChances(guild.id)
         return chances ?: defaultCasinoChances
+    }
+
+    fun getFishChances(guild: Guild): Map<Pair<Double, String>, Double> {
+        val chances = db.getFishChances(guild.id)
+        return chances ?: defaultFishChances
     }
 
     val color = Color(200, 66, 244)

@@ -38,6 +38,12 @@ class Database(user: String,
         return if (doc == null) null else doc["chances"] as Map<Double, Double>
     }
 
+    @Suppress("UNCHECKED_CAST")
+    fun getFishChances(id: String): Map<Pair<Double, String>, Double>? {
+        val doc = getDoc(id, "fish")
+        return if (doc == null) null else doc["chances"] as Map<Pair<Double, String>, Double>
+    }
+
     private fun getDoc(id: String, collection: String): Document? {
         return database.getCollection(collection).find(Filters.eq("_id", id)).firstOrNull()
     }
