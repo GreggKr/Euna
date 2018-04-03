@@ -2,7 +2,8 @@ package me.greggkr.euna
 
 import com.natpryce.konfig.ConfigurationProperties
 import me.diax.comportment.jdacommand.CommandHandler
-import me.greggkr.euna.listeners.CommandListener
+import me.greggkr.euna.handlers.CommandListener
+import me.greggkr.euna.handlers.VoteHandler
 import me.greggkr.euna.util.CommandReg
 import me.greggkr.euna.util.Config
 import me.greggkr.euna.util.db.Data
@@ -16,7 +17,10 @@ class Euna {
     companion object {
         lateinit var jda: JDA
         lateinit var config: ConfigurationProperties
+        lateinit var handler: CommandHandler
         lateinit var data: Data
+
+        var voteHandler = VoteHandler()
     }
 
     fun start() {
@@ -30,12 +34,12 @@ class Euna {
                 config[Config.mongo.port]
         ))
 
-        val commandHandler = CommandHandler()
-        commandHandler.registerCommands(CommandReg().getCommands())
+        handler = CommandHandler()
+        handler.registerCommands(CommandReg().getCommands())
 
         jda = JDABuilder(AccountType.BOT)
                 .setToken(config[Config.bot.discordToken])
-                .addEventListener(CommandListener(commandHandler))
+                .addEventListener(CommandListener(handler))
                 .buildBlocking()
     }
 }

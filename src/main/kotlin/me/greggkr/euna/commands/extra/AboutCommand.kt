@@ -1,6 +1,7 @@
 package me.greggkr.euna.commands.extra
 
 import me.diax.comportment.jdacommand.Command
+import me.diax.comportment.jdacommand.CommandAttribute
 import me.diax.comportment.jdacommand.CommandDescription
 import me.greggkr.euna.Euna
 import net.dv8tion.jda.core.EmbedBuilder
@@ -8,6 +9,8 @@ import net.dv8tion.jda.core.entities.Message
 
 @CommandDescription(name = "about", triggers = [
     "about", "info"
+], attributes = [
+    CommandAttribute(key = "extra")
 ], description = "Displays information about the bot.")
 class AboutCommand : Command {
     override fun execute(message: Message, a: String) {

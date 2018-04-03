@@ -44,6 +44,16 @@ class Database(user: String,
         return if (doc == null) null else doc["chances"] as Map<Pair<Double, String>, Double>
     }
 
+    fun getVotingStreak(id: String): Int {
+        val doc = getGlobalDoc("votingstreaks")
+        return if (doc == null) 0 else doc[id] as Int
+    }
+
+    fun setVotingStreak(id: String, amount: Int) {
+        val doc = getGlobalDoc("votingstreaks") ?: Document()
+        saveGlobalField("votingstreaks", doc.append(id, amount))
+    }
+
     private fun getDoc(id: String, collection: String): Document? {
         return database.getCollection(collection).find(Filters.eq("_id", id)).firstOrNull()
     }
@@ -56,4 +66,15 @@ class Database(user: String,
         database.getCollection(collection).deleteOne(Filters.eq("_id", id))
     }
 
+    private fun getGlobalDoc(collection: String): Document? {
+        return getDoc("global", collection)
+    }
+
+    private fun saveGlobalField(collection: String, data: Document) {
+        saveField("global", collection, data)
+    }
+
+    private fun removeGlobalField(collection: String) {
+        removeField("global", collection)
+    }
 }

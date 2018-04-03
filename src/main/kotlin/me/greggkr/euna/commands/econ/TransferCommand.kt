@@ -2,6 +2,7 @@ package me.greggkr.euna.commands.econ
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil
 import me.diax.comportment.jdacommand.Command
+import me.diax.comportment.jdacommand.CommandAttribute
 import me.diax.comportment.jdacommand.CommandDescription
 import me.greggkr.euna.Euna
 import me.greggkr.euna.util.Emoji
@@ -9,6 +10,8 @@ import net.dv8tion.jda.core.entities.Message
 
 @CommandDescription(name = "transfer", triggers = [
     "transfer", "pay"
+], attributes = [
+    CommandAttribute(key = "economy")
 ], description = "Transfers money from one person to another.")
 class TransferCommand : Command {
     override fun execute(message: Message, a: String) {

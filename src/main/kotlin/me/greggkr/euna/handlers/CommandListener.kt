@@ -1,4 +1,4 @@
-package me.greggkr.euna.listeners
+package me.greggkr.euna.handlers
 
 import me.diax.comportment.jdacommand.Command
 import me.diax.comportment.jdacommand.CommandHandler
@@ -16,7 +16,7 @@ class CommandListener(private val handler: CommandHandler) : ListenerAdapter() {
         val message = e.message.contentRaw
 
         if (message == e.guild.selfMember.asMention) {
-            e.channel.sendMessage("**Prefix: `$prefix`.**").queue()
+            e.channel.sendMessage("Hello ${e.author.asMention}, my name is Euna and my prefix here is **e!**. If you need any additional help, you can use e!help.").queue()
             return
         }
 

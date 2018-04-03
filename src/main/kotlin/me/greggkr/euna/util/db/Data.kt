@@ -70,6 +70,19 @@ class Data(private val db: Database) {
         return chances ?: defaultFishChances
     }
 
+    fun getVotingStreak(user: User): Int {
+        return db.getVotingStreak(user.id)
+    }
+
+    fun setVotingStreak(user: User, amount: Int) {
+        db.setVotingStreak(user.id, amount)
+    }
+
+    fun increaseVotingStreak(user: User, amount: Int) {
+        val startingStreak = getVotingStreak(user)
+        setVotingStreak(user, startingStreak + amount)
+    }
+
     val color = Color(200, 66, 244)
 
     fun isOwner(id: Long): Boolean {
