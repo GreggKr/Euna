@@ -29,6 +29,26 @@ class FishCommand : Command {
         val random = WeightedRandom<Pair<Double, String>>()
         random.addAll(Euna.data.getFishChances(message.guild))
 
+////        SIMULATION
+//        val goal = 55_000
+//        var i = 0
+//
+//        channel.sendMessage("goal: $goal").queue()
+//        while (amount < goal) {
+//            if (amount < 0) {
+//                channel.sendMessage("failed after $i").queue()
+//                return
+//            }
+//
+//            amount -= 10
+//            amount += random.get()!!.first
+//            println(amount)
+//
+//            i++
+//        }
+//
+//        channel.sendMessage("success after $i").queue()
+
         val pair = random.get()
 
         if (pair == null) {

@@ -32,15 +32,10 @@ class WeightedRandom<K> {
         val ratio = 1.0f / sum
         var tmp = 0.0
 
-        println(values)
-
         for (d in values.keys) {
             tmp += values[d]!!
 
-            if (random / ratio <= tmp) {
-                println(d)
-                return d
-            }
+            if (random / ratio <= tmp) return d
         }
 
         return null

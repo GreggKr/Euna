@@ -20,7 +20,7 @@ class Euna {
         lateinit var handler: CommandHandler
         lateinit var data: Data
 
-        var voteHandler = VoteHandler()
+        val voteHandler = VoteHandler()
     }
 
     fun start() {
