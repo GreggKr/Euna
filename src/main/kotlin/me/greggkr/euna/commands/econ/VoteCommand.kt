@@ -17,6 +17,11 @@ class VoteCommand : Command {
         val channel = message.channel
         val author = message.author
 
+        if (!a.isEmpty() && a.split(Regex("\\s+"))[0].toLowerCase() == "streak") {
+            channel.sendMessage("Your voting streak is ${Euna.data.getVotingStreak(author)}.").queue()
+            return
+        }
+
         if (Euna.voteHandler.isIn(author)) {
             channel.sendMessage("${Emoji.X} You have already voted today.").queue()
             return
