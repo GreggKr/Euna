@@ -18,21 +18,21 @@ class TransferCommand : Command {
         val channel = message.channel
         val author = message.author
         if (a.isEmpty()) {
-            channel.sendMessage("${Emoji.X} **Correct usage: e!transfer <user> | <money>**").queue()
+            channel.sendMessage("${Emoji.X} Correct usage: e!transfer <user> | <money>").queue()
             return
         }
 
         val args = a.split(Regex("\\s\\|\\s"))
 
         if (args.size < 2) {
-            channel.sendMessage("${Emoji.X} **Correct usage: e!transfer <user> | <money>**").queue()
+            channel.sendMessage("${Emoji.X} Correct usage: e!transfer <user> | <money>").queue()
             return
         }
 
         val users = FinderUtil.findUsers(args[0], message.jda)
 
         if (users.isEmpty()) {
-            channel.sendMessage("${Emoji.X} **User not found.**")
+            channel.sendMessage("${Emoji.X} User not found.")
             return
         }
 
@@ -40,24 +40,24 @@ class TransferCommand : Command {
         val money: Int
 
         if (user.id == author.id) {
-            channel.sendMessage("${Emoji.X} **You cannot send money to yourself.**").queue()
+            channel.sendMessage("${Emoji.X} You cannot send money to yourself.").queue()
             return
         }
 
         try {
             money = Math.abs(Integer.parseInt(args[1]))
         } catch (e: NumberFormatException) {
-            channel.sendMessage("${Emoji.X} **Correct usage: e!transfer <user> | <money>**").queue()
+            channel.sendMessage("${Emoji.X} Correct usage: e!transfer <user> | <money>").queue()
             return
         }
 
         if (Euna.data.getMoney(author) < money) {
-            channel.sendMessage("${Emoji.X} **You do not have enough money to do that.**").queue()
+            channel.sendMessage("${Emoji.X} You do not have enough money to do that.").queue()
             return
         }
 
         Euna.data.decreaseMoney(author, money * 1.0)
         Euna.data.increaseMoney(user, money * 1.0)
-        channel.sendMessage("${Emoji.WHITE_CHECK_MARK} **You sent $$money to ${user.asMention}.**").queue()
+        channel.sendMessage("${Emoji.WHITE_CHECK_MARK} You sent $$money to ${user.asMention}.").queue()
     }
 }
