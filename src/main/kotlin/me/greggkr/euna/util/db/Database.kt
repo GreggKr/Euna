@@ -68,12 +68,12 @@ class Database(user: String,
 
     fun getPet(id: String): String? {
         val doc = getGlobalDoc("pets") ?: return null
-        return doc.get(id, "")
+        return doc.get(id, Document()).toJson()
     }
 
     fun setPet(id: String, json: String) {
         val doc = getGlobalDoc("pets") ?: Document()
-        saveGlobalField("pets", doc.append(id, json))
+        saveGlobalField("pets", doc.append(id, Document.parse(json)))
     }
 
     private fun getDoc(id: String, collection: String): Document? {
