@@ -3,6 +3,7 @@ package me.greggkr.euna
 import com.natpryce.konfig.ConfigurationProperties
 import me.diax.comportment.jdacommand.CommandHandler
 import me.greggkr.euna.handlers.CommandListener
+import me.greggkr.euna.handlers.PetBattleHandler
 import me.greggkr.euna.handlers.VoteHandler
 import me.greggkr.euna.util.CommandReg
 import me.greggkr.euna.util.Config
@@ -21,6 +22,7 @@ class Euna {
         lateinit var data: Data
 
         val voteHandler = VoteHandler()
+        val battleHandler = PetBattleHandler()
     }
 
     fun start() {

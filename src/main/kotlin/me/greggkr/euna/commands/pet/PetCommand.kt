@@ -1,5 +1,6 @@
 package me.greggkr.euna.commands.pet
 
+import com.jagrosh.jdautilities.commons.utils.FinderUtil
 import me.diax.comportment.jdacommand.Command
 import me.diax.comportment.jdacommand.CommandAttribute
 import me.diax.comportment.jdacommand.CommandDescription
@@ -45,13 +46,120 @@ class PetCommand : Command {
                     "```").queue()
         } else {
             val first = args[0].toLowerCase()
-            if (first == "test") {
-                val pet = Pet.Builder()
-                        .setOwner(author.id)
-                        .setAttack(55)
-                        .build()!!
+            when (first) {
+                "test" -> {
+                    val pet = Pet.Builder()
+                            .setOwner(author.id)
+                            .setAttack(55)
+                            .build()!!
 
-                Euna.data.setPet(author, pet)
+                    Euna.data.setPet(author, pet)
+                }
+                "battle" -> when {
+                    args[1].toLowerCase() == "accept" -> {
+                        val users = FinderUtil.findUsers(a, message.jda)
+                        if (users.isEmpty()) {
+                            channel.sendMessage("${Emoji.X} User not found.").queue()
+                            return
+                        }
+
+                        val user = users[0]
+
+                        if (!Euna.battleHandler.hasActive(user, author)) {
+                            channel.sendMessage("${Emoji.X} That user has not sent you a request.").queue()
+                            return
+                        }
+
+                        Euna.battleHandler.remove(user)
+
+                        channel.sendMessage("starting battle between ${author.name} and ${user.name}").queue()
+
+                        // start battle
+                    }
+
+                    args[1].toLowerCase() == "deny" -> {
+                        val users = FinderUtil.findUsers(a, message.jda)
+                        if (users.isEmpty()) {
+                            channel.sendMessage("${Emoji.X} User not found.").queue()
+                            return
+                        }
+
+                        val user = users[0]
+
+                        if (!Euna.battleHandler.hasActive(user, author)) {
+                            channel.sendMessage("${Emoji.X} That user has not sent you a request.").queue()
+                            return
+                        }
+
+                        Euna.battleHandler.remove(user)
+
+                        channel.sendMessage("${user.asMention}, ${author.asMention} has denied your battle request.").queue()
+                    }
+
+                    else -> {
+                        val petOne = Euna.data.getPet(author)
+
+                        if (petOne == null) {
+                            channel.sendMessage("${Emoji.X} You do not have a pet.").queue()
+                            return
+                        }
+
+                        val users = FinderUtil.findUsers(a, message.jda)
+                        if (users.isEmpty()) {
+                            channel.sendMessage("${Emoji.X} User not found.").queue()
+                            return
+                        }
+
+                        val user = users[0]
+                        val petTwo = Euna.data.getPet(user)
+
+                        if (petTwo == null) {
+                            channel.sendMessage("${Emoji.X} That user does not have a pet.").queue()
+                            return
+                        }
+
+                        if (petOne.health <= 0 || petTwo.health <= 0) {
+                            channel.sendMessage("${Emoji.X} One of your pets does not have enough health to start a battle.").queue()
+                            return
+                        }
+
+                        channel.sendMessage("${user.asMention}, ${author.asMention} has challenged you to a battle with a bet of $<bet>.\n" +
+                                "You can either accept this challenge by entering `e!pet battle accept @${user.name}#${user.discriminator}` " +
+                                "or decline the challenge by entering `e!pet battle deny @${author.name}#${author.discriminator}").queue()
+
+                        Euna.battleHandler.add(author, user)
+                    }
+                }
+                "pat" -> {
+                    val pet = Euna.data.getPet(author)
+
+                    if (pet == null) {
+                        channel.sendMessage("${Emoji.X} You do not have a pet.").queue()
+                        return
+                    }
+
+                    channel.sendMessage("*pat pat*").queue()
+                }
+                "cuddle" -> {
+                    val pet = Euna.data.getPet(author)
+
+                    if (pet == null) {
+                        channel.sendMessage("${Emoji.X} You do not have a pet.").queue()
+                        return
+                    }
+
+                    channel.sendMessage("*nuzzle nuzzle*").queue()
+                }
+                "hug" -> {
+                    val pet = Euna.data.getPet(author)
+
+                    if (pet == null) {
+                        channel.sendMessage("${Emoji.X} You do not have a pet.").queue()
+                        return
+                    }
+
+                    channel.sendMessage("*hug sound*").queue()
+                }
             }
         }
     }
