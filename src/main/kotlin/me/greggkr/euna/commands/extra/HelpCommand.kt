@@ -36,6 +36,8 @@ class HelpCommand : Command {
             sb.append("$prefix${c.description.name}\n")
         }
 
+        sb.append("\nNeed additional help? Join my support server [here](https://discord.gg/W3ckPhb).")
+
         message.channel.sendMessage(EmbedBuilder()
                 .setColor(Euna.data.color)
                 .setDescription(sb.toString())

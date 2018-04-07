@@ -33,9 +33,9 @@ class Data(private val db: Database) {
         defaultFishChances[Pair(15.0, "Uncommon Fish")] = 30.0
         defaultFishChances[Pair(30.0, "Rare Fish")] = 10.0
         defaultFishChances[Pair(50.0, "Epic Fish")] = 5.0
-        defaultFishChances[Pair(100.0, "Megaladon (Mythical)")] = 0.0
-        defaultFishChances[Pair(100.0, "The Loch Ness Monster (Mythical)")] = 0.0
-        defaultFishChances[Pair(100.0, "Leviathan (Mythical)")] = 0.0
+        defaultFishChances[Pair(100.0, "Megaladon (Mythical)")] = 1.0
+        defaultFishChances[Pair(100.0, "The Loch Ness Monster (Mythical)")] = .25
+        defaultFishChances[Pair(100.0, "Leviathan (Mythical)")] = .1
     }
 
     fun isOwner(id: Long): Boolean {
