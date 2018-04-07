@@ -6,6 +6,7 @@ import me.greggkr.euna.commands.extra.AboutCommand
 import me.greggkr.euna.commands.extra.HelpCommand
 import me.greggkr.euna.commands.extra.SettingsCommand
 import me.greggkr.euna.commands.owner.EvalCommand
+import me.greggkr.euna.commands.pet.PetCommand
 
 class CommandReg {
     private val commands = HashSet<Command>()
@@ -19,6 +20,9 @@ class CommandReg {
                 MoneyCommand(),
                 TransferCommand(),
                 VoteCommand(),
+
+                /* Pet */
+                PetCommand(),
 
                 /* Extra */
                 AboutCommand(),
