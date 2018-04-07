@@ -54,6 +54,17 @@ class Database(user: String,
         saveGlobalField("votingstreaks", doc.append(id, amount))
     }
 
+    @Suppress("UNCHECKED_CAST")
+    fun getFish(id: String): MutableMap<String, Int>? {
+        val doc = getGlobalDoc("fish")
+        return if (doc == null) null else doc[id] as MutableMap<String, Int>?
+    }
+
+    fun setFish(id: String, fish: Map<String, Int>) {
+        val doc = getGlobalDoc("fish") ?: Document()
+        saveGlobalField("fish", doc.append(id, fish))
+    }
+
     private fun getDoc(id: String, collection: String): Document? {
         return database.getCollection(collection).find(Filters.eq("_id", id)).firstOrNull()
     }

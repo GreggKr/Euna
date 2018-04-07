@@ -15,6 +15,7 @@ class CommandReg {
                 /* Economy */
                 CasinoCommand(),
                 FishCommand(),
+                FishtankCommand(),
                 MoneyCommand(),
                 TransferCommand(),
                 VoteCommand(),

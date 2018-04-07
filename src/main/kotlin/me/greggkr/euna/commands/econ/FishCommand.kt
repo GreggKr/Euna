@@ -60,6 +60,12 @@ class FishCommand : Command {
 
         Euna.data.increaseMoney(author, pair.first)
 
+        val sName = pair.second.split(Regex("\\s+"))
+
+        if (!sName.isEmpty() && sName.size >= 2) {
+            Euna.data.increaseFish(author, sName[0].toLowerCase(), 1)
+        }
+
         channel.sendMessage("You caught${if (pair.second == "Nothing") "" else (if (isVowel(pair.second[0])) " an" else " a")} ${pair.second}.\n" +
                 "You spent $10 and won $${pair.first} for a net gain of $${pair.first - amount}, ${author.asMention}.\n" +
                 "${pair.first} - $amount = ${pair.first - amount}; ${random.getChance(pair)}%").queue()

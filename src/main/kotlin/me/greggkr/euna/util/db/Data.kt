@@ -15,6 +15,8 @@ class Data(private val db: Database) {
             184041169796333568L
     )
 
+    val color = Color(200, 66, 244)
+
     init {
         defaultCasinoChances[0.0] = 40.0
         defaultCasinoChances[0.5] = 20.0
@@ -34,6 +36,14 @@ class Data(private val db: Database) {
         defaultFishChances[Pair(100.0, "Megaladon (Mythical)")] = 0.0
         defaultFishChances[Pair(100.0, "The Loch Ness Monster (Mythical)")] = 0.0
         defaultFishChances[Pair(100.0, "Leviathan (Mythical)")] = 0.0
+    }
+
+    fun isOwner(id: Long): Boolean {
+        return owners.contains(id)
+    }
+
+    fun isOwner(id: String): Boolean {
+        return owners.contains(id.toLong())
     }
 
     fun getOwner(): String {
@@ -83,13 +93,39 @@ class Data(private val db: Database) {
         setVotingStreak(user, startingStreak + amount)
     }
 
-    val color = Color(200, 66, 244)
-
-    fun isOwner(id: Long): Boolean {
-        return owners.contains(id)
+    fun getFish(user: User): MutableMap<String, Int> {
+        val fish = db.getFish(user.id)
+        return fish ?: HashMap()
     }
 
-    fun isOwner(id: String): Boolean {
-        return owners.contains(id.toLong())
+    fun setFish(user: User, fish: MutableMap<String, Int>) {
+        db.setFish(user.id, fish)
+    }
+
+    fun getCommonFish(user: User): Int {
+        val fish = getFish(user)
+        return fish["common"] ?: 0
+    }
+
+    fun getUncommonFish(user: User): Int {
+        val fish = getFish(user)
+        return fish["uncommon"] ?: 0
+    }
+
+    fun getRareFish(user: User): Int {
+        val fish = getFish(user)
+        return fish["rare"] ?: 0
+    }
+
+    fun getEpicFish(user: User): Int {
+        val fish = getFish(user)
+        return fish["epic"] ?: 0
+    }
+
+    fun increaseFish(user: User, type: String, amount: Int) {
+        val fish = getFish(user)
+        val current = fish[type]
+        fish[type] = (current ?: 0) + amount
+        setFish(user, fish)
     }
 }

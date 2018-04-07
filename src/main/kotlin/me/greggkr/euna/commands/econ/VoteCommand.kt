@@ -17,8 +17,10 @@ class VoteCommand : Command {
         val channel = message.channel
         val author = message.author
 
+        val streak = Euna.data.getVotingStreak(author)
+
         if (!a.isEmpty() && a.split(Regex("\\s+"))[0].toLowerCase() == "streak") {
-            channel.sendMessage("Your voting streak is ${Euna.data.getVotingStreak(author)}.").queue()
+            channel.sendMessage("${author.asMention}, you have voted for me $streak days in a row. As thanks for your continued support, you receive a bonus of $${streak * 1.15} on your vote.").queue()
             return
         }
 
@@ -27,7 +29,6 @@ class VoteCommand : Command {
             return
         }
 
-        val streak = Euna.data.getVotingStreak(author)
 
         val money = (streak * 1.15) + 10.0
 
