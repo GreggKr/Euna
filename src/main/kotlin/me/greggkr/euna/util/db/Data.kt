@@ -1,6 +1,8 @@
 package me.greggkr.euna.util.db
 
+import com.google.gson.GsonBuilder
 import me.greggkr.euna.Euna
+import me.greggkr.euna.util.Pet
 import net.dv8tion.jda.core.entities.Guild
 import net.dv8tion.jda.core.entities.User
 import java.awt.Color
@@ -14,6 +16,9 @@ class Data(private val db: Database) {
     private val owners: List<Long> = Arrays.asList(
             184041169796333568L
     )
+
+    private val gson = GsonBuilder().setPrettyPrinting().create()
+
 
     val color = Color(200, 66, 244)
 
@@ -127,5 +132,18 @@ class Data(private val db: Database) {
         val current = fish[type]
         fish[type] = (current ?: 0) + amount
         setFish(user, fish)
+    }
+
+    fun getPet(user: User): Pet? {
+        val petJson = db.getPet(user.id)
+        if (petJson.isNullOrEmpty()) return null
+
+        return gson.fromJson(petJson, Pet::class.java)
+    }
+
+    fun setPet(user: User, pet: Pet) {
+        val json = gson.toJson(pet)
+
+        db.setPet(user.id, json)
     }
 }

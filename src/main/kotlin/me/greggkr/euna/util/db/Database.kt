@@ -1,5 +1,6 @@
 package me.greggkr.euna.util.db
 
+import com.google.gson.GsonBuilder
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientOptions
 import com.mongodb.MongoCredential
@@ -63,6 +64,16 @@ class Database(user: String,
     fun setFish(id: String, fish: Map<String, Int>) {
         val doc = getGlobalDoc("fish") ?: Document()
         saveGlobalField("fish", doc.append(id, fish))
+    }
+
+    fun getPet(id: String): String? {
+        val doc = getGlobalDoc("pets") ?: return null
+        return doc.get(id, "")
+    }
+
+    fun setPet(id: String, json: String) {
+        val doc = getGlobalDoc("pets") ?: Document()
+        saveGlobalField("pets", doc.append(id, json))
     }
 
     private fun getDoc(id: String, collection: String): Document? {

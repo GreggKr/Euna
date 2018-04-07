@@ -48,7 +48,7 @@ fun Array<String>.main() {
     Euna().start()
 
     /* TEST */
-//    val random = WeightedRandom()
+//    val random = WeightedRoh shandom()
 //
 //    random.add(0.0, 40.0)
 //    random.add(0.5, 20.0)
