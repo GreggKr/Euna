@@ -16,7 +16,8 @@ class AboutCommand : Command {
     override fun execute(message: Message, a: String) {
         message.channel.sendMessage(EmbedBuilder()
                 .setColor(Euna.data.color)
-                .setDescription("Random bot made by `${Euna.data.getOwner()}` for the guild `2017.07.23`.")
+                .setDescription("Random bot made by `${Euna.data.getOwner()}`.\n" +
+                        "Check me out on GitHub [here](https://www.github.com/GreggKr/Euna).")
                 .setFooter("Made with Kotlin, JDA, and some other stuff", null)
                 .build())
                 .queue()

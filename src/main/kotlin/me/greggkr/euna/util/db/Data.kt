@@ -14,7 +14,8 @@ class Data(private val db: Database) {
     //    HashMap<Pair<Money, Fish>, Chance>
     private val defaultFishChances = HashMap<Pair<Double, String>, Double>()
     private val owners: List<Long> = Arrays.asList(
-            184041169796333568L
+            184041169796333568L, // Gregg
+            184733130123378688L  // Landon
     )
 
     private val gson = GsonBuilder().setPrettyPrinting().create()
