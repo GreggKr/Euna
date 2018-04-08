@@ -18,8 +18,4 @@ class Config {
         val host by stringType
         val port by intType
     }
-
-    object greggkr : PropertyGroup() {
-        val key by stringType
-    }
 }
