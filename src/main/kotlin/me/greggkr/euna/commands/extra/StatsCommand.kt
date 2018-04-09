@@ -32,17 +32,16 @@ class StatsCommand : Command {
 
                 val os = system.operatingSystem
                 val osVer = os.version
-                val osBean = ManagementFactory.getOperatingSystemMXBean() as OperatingSystemMXBean
 
                 val hal = system.hardware
 
                 val mem = hal.memory
-
                 val processor = hal.processor
+                val disks = hal.diskStores
 
                 val json = JSONObject()
                         .put("os", JSONObject()
-                                .put("name", os.family)
+                                .put("u0name", os.family)
                                 .put("version", JSONObject()
                                         .put("ver", osVer.version)
                                         .put("build", osVer.buildNumber)
@@ -70,6 +69,33 @@ class StatsCommand : Command {
                                 )
                         )
 
+                val diskJson = JSONArray()
+                for (disk in disks) {
+                    val partitionJson = JSONArray()
+                    for (p in disk.partitions) {
+                        partitionJson.put(JSONObject()
+                                .put("name", p.name)
+                                .put("id", p.identification)
+                                .put("size", p.size.bytesToHumanReadable())
+                                .put("type", p.type)
+                        )
+                    }
+
+                    diskJson.put(JSONObject()
+                            .put("name", disk.name)
+                            .put("model", disk.model)
+                            .put("partitions", partitionJson)
+                            .put("size", disk.size.bytesToHumanReadable())
+                            .put("transfer_time", disk.transferTime.bytesToHumanReadable())
+                            .put("writes", disk.writes)
+                            .put("total_write_size", disk.writeBytes.bytesToHumanReadable())
+                            .put("reads", disk.reads)
+                            .put("total_read_size", disk.readBytes.bytesToHumanReadable())
+                    )
+                }
+
+                json.put("disks", diskJson)
+
                 if (a.contains("-p", true)) {
                     val procJson = JSONArray()
 
@@ -95,13 +121,14 @@ class StatsCommand : Command {
 
                     json.put("processes", procJson)
                 }
+
                 author.openPrivateChannel().queue({ it.sendMessage(HttpUtil.postGist("euna-dev-stats-${UUID.randomUUID()}.txt", json.toString(4))).queue() })
 
                 message.addReaction(Emoji.WHITE_CHECK_MARK.unicode).queue()
             }
 
             !a.isEmpty() && a.contains("more", true) -> {
-                
+
             }
 
             else -> {
