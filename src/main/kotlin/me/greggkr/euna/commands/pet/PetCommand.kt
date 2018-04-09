@@ -97,6 +97,10 @@ class PetCommand : Command {
                     }
 
                     else -> {
+                        if (args.size < 3) { // 0 -> battle, 1-x -> name, last -> amount
+                            channel.sendMessage("${Emoji.X} Invalid usage.").queue()
+                        }
+
                         val petOne = Euna.data.getPet(author)
 
                         if (petOne == null) {
