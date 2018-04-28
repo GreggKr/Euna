@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.EmbedBuilder
 import net.dv8tion.jda.core.entities.Guild
 import net.dv8tion.jda.core.entities.Message
 import net.dv8tion.jda.core.entities.MessageEmbed
+import java.lang.StringBuilder
 
 @CommandDescription(name = "settings", triggers = [
     "settings"
@@ -38,7 +39,32 @@ class SettingsCommand : Command {
                 val prefix = args[1]
 
                 Euna.data.setPrefix(guild, prefix)
-                channel.sendMessage("Set prefix to `$prefix`.").queue()
+                channel.sendMessage("${Emoji.WHITE_CHECK_MARK} Set prefix to `$prefix`.").queue()
+            }
+
+            first.equals("modrole", true) -> {
+                if (args.size < 2) { // 0 -> modrole, 1 -> role
+                    channel.sendMessage(String.format("${Emoji.X} Correct usage: %sssetings modrole <role>", Euna.data.getPrefix(guild))).queue()
+                    return
+                }
+
+                val sb = StringBuilder()
+
+                for (i in 1..args.size) {
+                    sb.append(args[i]).append(" ")
+                }
+
+                val roles = guild.getRolesByName(sb.toString(), true)
+
+                if (roles.isEmpty()) {
+                    channel.sendMessage("${Emoji.X} Role not found.")
+                    return
+                }
+
+                val role = roles[0]
+
+                Euna.data.setModRole(guild, role)
+                channel.sendMessage("${Emoji.WHITE_CHECK_MARK} Set role to `${role.name}`.").queue()
             }
 
             else -> {
