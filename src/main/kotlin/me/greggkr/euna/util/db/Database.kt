@@ -1,6 +1,5 @@
 package me.greggkr.euna.util.db
 
-import com.google.gson.GsonBuilder
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientOptions
 import com.mongodb.MongoCredential
@@ -20,6 +19,15 @@ class Database(user: String,
     private val client = MongoClient(ServerAddress(host, port), creds, MongoClientOptions.builder().build())
     private val database = client.getDatabase(dbName)
     private val updateOptions = UpdateOptions().upsert(true)
+
+    fun getPrefix(id: String): String? {
+        val doc = getDoc(id, "prefixes")
+        return if (doc == null) null else doc["prefix"] as String
+    }
+
+    fun setPrefix(id: String, prefix: String) {
+        saveField(id, "prefixes", Document().append("prefix", prefix))
+    }
 
     fun getMoney(id: String): Double {
         val doc = getDoc(id, "money")
@@ -74,6 +82,16 @@ class Database(user: String,
     fun setPet(id: String, json: String) {
         val doc = getGlobalDoc("pets") ?: Document()
         saveGlobalField("pets", doc.append(id, Document.parse(json)))
+    }
+
+    fun getModRole(id: String): Long? {
+        val doc = getDoc(id, "staffroles")
+        return if (doc == null) null else doc["mod"] as Long
+    }
+
+    fun setModRole(id: String, role: Long) {
+        val doc = getDoc(id, "staffroles") ?: Document()
+        saveField(id, "staffroles", doc.append("mod", role))
     }
 
     private fun getDoc(id: String, collection: String): Document? {

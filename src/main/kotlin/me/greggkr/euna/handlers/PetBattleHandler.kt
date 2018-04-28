@@ -1,6 +1,7 @@
 package me.greggkr.euna.handlers
 
 import net.dv8tion.jda.core.entities.User
+import java.util.*
 
 class PetBattleHandler {
     private val battleRequests = HashMap<Long, Long>()

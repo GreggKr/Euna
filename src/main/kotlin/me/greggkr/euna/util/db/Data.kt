@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import me.greggkr.euna.Euna
 import me.greggkr.euna.util.Pet
 import net.dv8tion.jda.core.entities.Guild
+import net.dv8tion.jda.core.entities.Role
 import net.dv8tion.jda.core.entities.User
 import java.awt.Color
 import java.util.*
@@ -19,6 +20,7 @@ class Data(private val db: Database) {
     )
 
     private val gson = GsonBuilder().setPrettyPrinting().create()
+    private val storedPrefixes = HashMap<String, String>()
 
 
     val color = Color(200, 66, 244)
@@ -50,6 +52,21 @@ class Data(private val db: Database) {
 
     fun isOwner(id: String): Boolean {
         return owners.contains(id.toLong())
+    }
+
+    fun getPrefix(guild: Guild): String {
+        if (storedPrefixes.contains(guild.id)) return storedPrefixes[guild.id]!!
+
+        val prefix = db.getPrefix(guild.id) ?: "e!"
+
+        storedPrefixes[guild.id] = prefix
+        return prefix
+    }
+
+    fun setPrefix(guild: Guild, prefix: String) {
+        db.setPrefix(guild.id, prefix)
+
+        storedPrefixes.put(guild.id, prefix)
     }
 
     fun getOwner(): String {
@@ -146,5 +163,15 @@ class Data(private val db: Database) {
         val json = gson.toJson(pet)
 
         db.setPet(user.id, json)
+    }
+
+    fun getModRole(guild: Guild): Role? {
+        val id = db.getModRole(guild.id) ?: return null
+
+        return guild.getRoleById(id)
+    }
+
+    fun setModRole(guild: Guild, role: Role) {
+        db.setModRole(guild.id, role.idLong)
     }
 }

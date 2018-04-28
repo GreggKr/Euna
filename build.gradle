@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.30'
+    ext.kotlin_version = '1.2.40'
 
     repositories {
         mavenCentral()
@@ -42,7 +42,6 @@ dependencies {
     compile "com.natpryce:konfig:1.6.1.0"
     compile "com.google.code.gson:gson:2.8.2"
     compile "com.github.dblock:oshi-json:3.4.0"
-
 
     compile "com.mashape.unirest:unirest-java:1.4.9"
 

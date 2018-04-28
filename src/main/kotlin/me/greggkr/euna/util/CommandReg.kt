@@ -1,11 +1,12 @@
 package me.greggkr.euna.util
 
 import me.diax.comportment.jdacommand.Command
+import me.greggkr.euna.commands.admin.SettingsCommand
 import me.greggkr.euna.commands.econ.*
 import me.greggkr.euna.commands.extra.AboutCommand
 import me.greggkr.euna.commands.extra.HelpCommand
-import me.greggkr.euna.commands.extra.SettingsCommand
 import me.greggkr.euna.commands.extra.StatsCommand
+import me.greggkr.euna.commands.moderation.KickCommand
 import me.greggkr.euna.commands.owner.EvalCommand
 import me.greggkr.euna.commands.pet.PetCommand
 
@@ -28,8 +29,13 @@ class CommandReg {
                 /* Extra */
                 AboutCommand(),
                 HelpCommand(),
-                SettingsCommand(),
                 StatsCommand(),
+
+                /* Moderation */
+                KickCommand(),
+
+                /* Admin */
+                SettingsCommand(),
 
                 /* Owner */
                 EvalCommand()
