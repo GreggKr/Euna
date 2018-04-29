@@ -6,7 +6,10 @@ import me.greggkr.euna.commands.econ.*
 import me.greggkr.euna.commands.extra.AboutCommand
 import me.greggkr.euna.commands.extra.HelpCommand
 import me.greggkr.euna.commands.extra.StatsCommand
+import me.greggkr.euna.commands.moderation.BanCommand
 import me.greggkr.euna.commands.moderation.KickCommand
+import me.greggkr.euna.commands.moderation.UnbanCommand
+import me.greggkr.euna.commands.moderation.WarnCommand
 import me.greggkr.euna.commands.owner.EvalCommand
 import me.greggkr.euna.commands.pet.PetCommand
 
@@ -33,6 +36,9 @@ class CommandReg {
 
                 /* Moderation */
                 KickCommand(),
+                BanCommand(),
+                UnbanCommand(),
+                WarnCommand(),
 
                 /* Admin */
                 SettingsCommand(),

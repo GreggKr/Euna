@@ -50,14 +50,15 @@ class SettingsCommand : Command {
 
                 val sb = StringBuilder()
 
-                for (i in 1..args.size) {
+                for (i in 1 until args.size) {
                     sb.append(args[i]).append(" ")
                 }
 
-                val roles = guild.getRolesByName(sb.toString(), true)
+                val roles = guild.getRolesByName(sb.toString().trim(), true)
+
 
                 if (roles.isEmpty()) {
-                    channel.sendMessage("${Emoji.X} Role not found.")
+                    channel.sendMessage("${Emoji.X} Role not found.").queue()
                     return
                 }
 

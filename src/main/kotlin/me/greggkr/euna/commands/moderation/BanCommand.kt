@@ -7,25 +7,25 @@ import me.greggkr.euna.Euna
 import me.greggkr.euna.util.Emoji
 import net.dv8tion.jda.core.entities.Message
 
-@CommandDescription(name = "kick", triggers = [
-    "kick"
+@CommandDescription(name = "ban", triggers = [
+    "ban"
 ], attributes = [
     (CommandAttribute(key = "modRole"))
-], description = "Kicks a member.")
-class KickCommand : Command {
+], description = "Bans a member.")
+class BanCommand : Command {
     override fun execute(message: Message, a: String) {
         val guild = message.guild
         val channel = message.channel
 
         if (a.isEmpty()) {
-            channel.sendMessage(String.format("${Emoji.X} Correct Usage: %skick <user> | <reason>", Euna.data.getPrefix(guild))).queue()
+            channel.sendMessage(String.format("${Emoji.X} Correct Usage: %sban <user> | <reason>", Euna.data.getPrefix(guild))).queue()
             return
         }
 
         val args = a.split(Regex("\\s\\|\\s"))
 
         if (message.mentionedMembers.isEmpty()) {
-            channel.sendMessage(String.format("${Emoji.X} Correct Usage: %skick <user> | <reason>", Euna.data.getPrefix(guild))).queue()
+            channel.sendMessage(String.format("${Emoji.X} Correct Usage: %sban <user> | <reason>", Euna.data.getPrefix(guild))).queue()
             return
         }
 
@@ -41,7 +41,7 @@ class KickCommand : Command {
             return
         }
 
-        channel.sendMessage("${Emoji.WHITE_CHECK_MARK} `${message.author.name + "#" + message.author.discriminator}` kicked `${member.user.name + "#" + member.user.discriminator}` for `$reason`.").queue()
-        message.guild.controller.kick(member, reason).queue()
+        channel.sendMessage("${Emoji.WHITE_CHECK_MARK} `${message.author.name + "#" + message.author.discriminator}` banned `${member.user.name + "#" + member.user.discriminator}` for `$reason`.").queue()
+        message.guild.controller.ban(member, 0, reason).queue()
     }
 }

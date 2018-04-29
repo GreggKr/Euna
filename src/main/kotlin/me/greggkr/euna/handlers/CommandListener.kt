@@ -13,10 +13,10 @@ class CommandListener(private val handler: CommandHandler) : ListenerAdapter() {
     override fun onMessageReceived(e: MessageReceivedEvent) {
         if (e.author.isBot) return
         if (e.channelType != ChannelType.TEXT) return
-
-        val prefix = "e!"
-        val message = e.message.contentRaw
+                
         val guild = e.guild
+        val prefix = Euna.data.getPrefix(guild)
+        val message = e.message.contentRaw
         val member = e.member
 
         if (message == e.guild.selfMember.asMention) {
@@ -42,27 +42,17 @@ class CommandListener(private val handler: CommandHandler) : ListenerAdapter() {
             }
         }
 
-        if (command.hasAttribute("requiredRole")) {
-            val role = command.getAttributeValueFromKey("role")
+        if (command.hasAttribute("modRole")) {
+            val modRole = Euna.data.getModRole(guild)
 
-            when (role) {
-                "mod" -> {
-                    val modRole = Euna.data.getModRole(guild)
+            if (modRole == null) {
+                e.channel.sendMessage("${Emoji.X} Mod role is invalid.").queue()
+                return
+            }
 
-                    if (modRole == null) {
-                        e.channel.sendMessage("${Emoji.X} Mod role is invalid.")
-                        return
-                    }
-
-                    if (!member.roles.contains(modRole)) {
-                        e.channel.sendMessage("${Emoji.X} You have to have the role `${modRole.name}`.")
-                        return
-                    }
-                }
-
-                else -> {
-                    e.channel.sendMessage("${Emoji.X} Invalid role.")
-                }
+            if (!member.roles.contains(modRole)) {
+                e.channel.sendMessage("${Emoji.X} You have to have the role `${modRole.name}`.").queue()
+                return
             }
         }
 
