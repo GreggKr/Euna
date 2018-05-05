@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.entities.TextChannel
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent
 import net.dv8tion.jda.core.hooks.ListenerAdapter
 
-class CommandListener(private val handler: CommandHandler) : ListenerAdapter() {
+class CommandHandler(private val handler: CommandHandler) : ListenerAdapter() {
     override fun onMessageReceived(e: MessageReceivedEvent) {
         if (e.author.isBot) return
         if (e.channelType != ChannelType.TEXT) return

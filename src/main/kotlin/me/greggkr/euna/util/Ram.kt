@@ -2,7 +2,6 @@ package me.greggkr.euna.util
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import me.greggkr.euna.util.ram.Image
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -10,6 +9,21 @@ import okhttp3.Request
 private const val BASE_URL = "https://rra.ram.moe"
 
 class Ram {
+    enum class ImageType {
+        CRY, CUDDE, HUG, KISS, LEWD, LICK, NOM, NYAN, OWO, PAT, POUT, REM, SLAP, SMUG, STARE, TICKLE, TRIGGERED, NSFW_GTN, POTATO, KERMIT;
+
+        override fun toString(): String {
+            return name.toLowerCase().replace("_", "-")
+        }
+    }
+
+    data class Image(
+            val path: String,
+            val id: String,
+            val type: String,
+            val nsfw: Boolean
+    )
+
     private val client = OkHttpClient.Builder()
             .build()
 
@@ -47,10 +61,3 @@ class Ram {
     fun getImageFromPath(path: String) = "$BASE_URL$path"
 }
 
-enum class ImageType {
-    CRY, CUDDE, HUG, KISS, LEWD, LICK, NOM, NYAN, OWO, PAT, POUT, REM, SLAP, SMUG, STARE, TICKLE, TRIGGERED, NSFW_GTN, POTATO, KERMIT;
-
-    override fun toString(): String {
-        return name.toLowerCase().replace("_", "-")
-    }
-}
