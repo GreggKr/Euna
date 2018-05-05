@@ -7,8 +7,10 @@ import me.greggkr.euna.handlers.PetBattleHandler
 import me.greggkr.euna.handlers.VoteHandler
 import me.greggkr.euna.util.CommandReg
 import me.greggkr.euna.util.Config
+import me.greggkr.euna.util.Ram
 import me.greggkr.euna.util.db.Data
 import me.greggkr.euna.util.db.Database
+import net.dv8tion.jda.bot.sharding.DefaultShardManager
 import net.dv8tion.jda.core.AccountType
 import net.dv8tion.jda.core.JDA
 import net.dv8tion.jda.core.JDABuilder
@@ -23,6 +25,7 @@ class Euna {
 
         val voteHandler = VoteHandler()
         val battleHandler = PetBattleHandler()
+        val ram = Ram()
     }
 
     fun start() {
@@ -48,28 +51,4 @@ class Euna {
 
 fun Array<String>.main() {
     Euna().start()
-
-    /* TEST */
-//    val random = WeightedRoh shandom()
-//
-//    random.add(0.0, 40.0)
-//    random.add(0.5, 20.0)
-//    random.add(1.25, 15.0)
-//    random.add(1.50, 10.0)
-//    random.add(1.75, 6.0)
-//    random.add(2.0, 5.0)
-//    random.add(2.5, 2.0)
-//    random.add(5.0, 1.5)
-//    random.add(10.0, 0.5)
-//
-//    val testSize = 1_000_000
-//
-//    val testMap = HashMap<Double, Double>()
-//
-//    for (i in 1..testSize) {
-//        val r = random.getRandom()
-//        testMap[r] = if (testMap[r] == null) 1.0 / testSize else testMap[r]!! + 1.0 / testSize
-//    }
-//
-//    println(testMap)
 }

@@ -6,6 +6,7 @@ import me.greggkr.euna.Euna
 import me.greggkr.euna.util.Emoji
 import net.dv8tion.jda.core.Permission
 import net.dv8tion.jda.core.entities.ChannelType
+import net.dv8tion.jda.core.entities.TextChannel
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent
 import net.dv8tion.jda.core.hooks.ListenerAdapter
 
@@ -13,16 +14,18 @@ class CommandListener(private val handler: CommandHandler) : ListenerAdapter() {
     override fun onMessageReceived(e: MessageReceivedEvent) {
         if (e.author.isBot) return
         if (e.channelType != ChannelType.TEXT) return
-                
+
         val guild = e.guild
         val prefix = Euna.data.getPrefix(guild)
         val message = e.message.contentRaw
-        val member = e.member
+        val channel = e.channel
 
         if (message == e.guild.selfMember.asMention) {
-            e.channel.sendMessage("Hello ${e.author.asMention}, my name is Euna and my prefix here is **e!**. If you need any additional help, you can use e!help.").queue()
+            channel.sendMessage("Hello ${e.author.asMention}, my name is Euna and my prefix here is **e!**. If you need any additional help, you can use e!help.").queue()
             return
         }
+
+        val member = e.member
 
         if (!message.startsWith(prefix)) return
 
@@ -37,7 +40,7 @@ class CommandListener(private val handler: CommandHandler) : ListenerAdapter() {
 
         if (command.hasAttribute("adminOnly")) {
             if (!member.hasPermission(Permission.MANAGE_SERVER) && !member.hasPermission(Permission.ADMINISTRATOR)) {
-                e.channel.sendMessage("${Emoji.X} You must have the MANAGE_SERVER or ADMINISTRATOR permission to do this.")
+                channel.sendMessage("${Emoji.X} You must have the MANAGE_SERVER or ADMINISTRATOR permission to do this.")
                 return
             }
         }
@@ -46,12 +49,19 @@ class CommandListener(private val handler: CommandHandler) : ListenerAdapter() {
             val modRole = Euna.data.getModRole(guild)
 
             if (modRole == null) {
-                e.channel.sendMessage("${Emoji.X} Mod role is invalid.").queue()
+                channel.sendMessage("${Emoji.X} Mod role is invalid.").queue()
                 return
             }
 
             if (!member.roles.contains(modRole)) {
-                e.channel.sendMessage("${Emoji.X} You have to have the role `${modRole.name}`.").queue()
+                channel.sendMessage("${Emoji.X} You have to have the role `${modRole.name}`.").queue()
+                return
+            }
+        }
+
+        if (command.hasAttribute("nsfw")) {
+            if (!(channel as TextChannel).isNSFW) {
+                channel.sendMessage("${Emoji.X} This command must be used in an NSFW channel.").queue()
                 return
             }
         }

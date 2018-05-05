@@ -12,6 +12,9 @@ import me.greggkr.euna.commands.moderation.UnbanCommand
 import me.greggkr.euna.commands.moderation.WarnCommand
 import me.greggkr.euna.commands.owner.EvalCommand
 import me.greggkr.euna.commands.pet.PetCommand
+import me.greggkr.euna.commands.weeb.img.HugCommand
+import me.greggkr.euna.commands.weeb.img.KissCommand
+import me.greggkr.euna.commands.weeb.img.NSFWImageCommand
 
 class CommandReg {
     private val commands = HashSet<Command>()
@@ -33,6 +36,12 @@ class CommandReg {
                 AboutCommand(),
                 HelpCommand(),
                 StatsCommand(),
+
+                /* Weeb */
+                /* Image */
+                HugCommand(),
+                KissCommand(),
+                NSFWImageCommand(),
 
                 /* Moderation */
                 KickCommand(),

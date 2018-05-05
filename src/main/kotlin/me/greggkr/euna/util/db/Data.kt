@@ -175,12 +175,4 @@ class Data(private val db: Database) {
     fun setModRole(guild: Guild, role: Role) {
         db.setModRole(guild.id, role.idLong)
     }
-
-    fun addWarning(guild: Guild, user: User, reason: String) {
-        db.addWarning(guild.id, user.id, reason)
-    }
-
-    fun getWarnings(guild: Guild, user: User): List<JsonObject> {
-        return db.getWarnings(guild.id, user.id) ?: ArrayList()
-    }
 }

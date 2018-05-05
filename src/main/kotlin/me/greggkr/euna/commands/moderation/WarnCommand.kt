@@ -18,14 +18,14 @@ class WarnCommand : Command {
         val channel = message.channel
 
         if (a.isEmpty()) {
-            channel.sendMessage(String.format("${Emoji.X} Correct Usage: %sban <user> | <reason>", Euna.data.getPrefix(guild))).queue()
+            channel.sendMessage(String.format("${Emoji.X} Correct Usage: %swarn <user> | <reason>", Euna.data.getPrefix(guild))).queue()
             return
         }
 
         val args = a.split(Regex("\\s\\|\\s"))
 
         if (message.mentionedMembers.isEmpty()) {
-            channel.sendMessage(String.format("${Emoji.X} Correct Usage: %sban <user> | <reason>", Euna.data.getPrefix(guild))).queue()
+            channel.sendMessage(String.format("${Emoji.X} Correct Usage: %swarn <user> | <reason>", Euna.data.getPrefix(guild))).queue()
             return
         }
 
@@ -37,6 +37,5 @@ class WarnCommand : Command {
         val member = message.mentionedMembers[0]
 
         channel.sendMessage("${Emoji.WHITE_CHECK_MARK} `${message.author.name + "#" + message.author.discriminator}` warned `${member.user.name + "#" + member.user.discriminator}` for `$reason`.").queue()
-        Euna.data.addWarning(guild, member.user, reason)
     }
 }

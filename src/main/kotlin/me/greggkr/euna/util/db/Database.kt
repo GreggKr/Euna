@@ -1,13 +1,13 @@
 package me.greggkr.euna.util.db
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.mongodb.*
+import com.mongodb.MongoClient
+import com.mongodb.MongoClientOptions
+import com.mongodb.MongoCredential
+import com.mongodb.ServerAddress
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.UpdateOptions
-import com.mongodb.util.JSON
 import org.bson.Document
 
 class Database(user: String,
@@ -98,32 +98,6 @@ class Database(user: String,
     fun setModRole(id: String, role: Long) {
         val doc = getDoc(id, "staffroles") ?: Document()
         saveField(id, "staffroles", doc.append("mod", role))
-    }
-
-
-    fun addWarning(id: String, user: String, reason: String) {
-        val doc = getDoc(id, "warnings") ?: Document()
-        val json = gson.fromJson(doc.toJson(), JsonObject::class.java)
-
-//        val warnings = json[user]?.asJsonArray ?: JsonArray()
-//
-//        val obj = JsonObject()
-//        obj.addProperty("reason", reason)
-//
-//        warnings.add(obj)
-//
-//        doc.append("warnings", BasicDBObject.parse(warnings.toString()))
-
-        val warnings = json[user] as List<String>
-
-        saveField(id, "warnings", doc)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    fun getWarnings(id: String, user: String): List<JsonObject>? {
-        val doc = getDoc(id, "warnings") ?: return null
-
-        return doc[user] as ArrayList<JsonObject>
     }
 
     private fun getDoc(id: String, collection: String): Document? {
