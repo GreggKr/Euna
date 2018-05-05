@@ -4,9 +4,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import me.greggkr.euna.Euna
 import me.greggkr.euna.util.Pet
-import net.dv8tion.jda.core.entities.Guild
-import net.dv8tion.jda.core.entities.Role
-import net.dv8tion.jda.core.entities.User
+import net.dv8tion.jda.core.entities.*
 import java.awt.Color
 import java.util.*
 import kotlin.collections.HashMap
@@ -174,5 +172,15 @@ class Data(private val db: Database) {
 
     fun setModRole(guild: Guild, role: Role) {
         db.setModRole(guild.id, role.idLong)
+    }
+
+    fun getModLog(guild: Guild): TextChannel? {
+        val id = db.getModLog(guild.id) ?: return null
+
+        return guild.getTextChannelById(id)
+    }
+
+    fun setModLog(guild: Guild, channel: MessageChannel) {
+        db.setModLog(guild.id, channel.idLong)
     }
 }

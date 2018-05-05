@@ -68,6 +68,18 @@ class SettingsCommand : Command {
                 channel.sendMessage("${Emoji.WHITE_CHECK_MARK} Set role to `${role.name}`.").queue()
             }
 
+            first.equals("modlog", true) -> {
+                if (message.mentionedChannels.isEmpty()) {
+                    channel.sendMessage(String.format("${Emoji.X} Correct usage: %sssetings modlog <channel>", Euna.data.getPrefix(guild))).queue()
+                    return
+                }
+
+                val modLogChannel = message.mentionedChannels[0]
+
+                Euna.data.setModLog(guild, modLogChannel)
+                channel.sendMessage("${Emoji.WHITE_CHECK_MARK} Set mod log to ${modLogChannel.asMention}.").queue()
+            }
+
             else -> {
                 channel.sendMessage(getHelpEmbed(guild)).queue()
             }
@@ -76,11 +88,14 @@ class SettingsCommand : Command {
 
     private fun getHelpEmbed(guild: Guild): MessageEmbed {
         val modRole = Euna.data.getModRole(guild)
+        val modLog = Euna.data.getModLog(guild)
+
         return EmbedBuilder()
                 .setColor(Euna.data.color)
                 .setTitle("Settings for ${guild.name}")
                 .addField("Prefix", Euna.data.getPrefix(guild), true)
                 .addField("Mod Role", if (modRole == null) "None" else modRole.asMention, true)
+                .addField("Mod Log", if (modLog == null) "None" else modLog.asMention, true)
                 .build()
     }
 }

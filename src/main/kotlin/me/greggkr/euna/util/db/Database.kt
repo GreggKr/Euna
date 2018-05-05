@@ -100,6 +100,16 @@ class Database(user: String,
         saveField(id, "staffroles", doc.append("mod", role))
     }
 
+    fun getModLog(id: String): Long? {
+        val doc = getDoc(id, "modlogs") ?: return null
+        return doc["channel"] as Long?
+    }
+
+    fun setModLog(id: String, channel: Long) {
+        val doc = getDoc(id, "modlogs") ?: Document()
+        saveField(id, "modlogs", doc.append("channel", channel))
+    }
+
     private fun getDoc(id: String, collection: String): Document? {
         return database.getCollection(collection).find(Filters.eq("_id", id)).firstOrNull()
     }

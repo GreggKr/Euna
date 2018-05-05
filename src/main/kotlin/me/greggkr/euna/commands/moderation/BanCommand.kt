@@ -4,6 +4,9 @@ import me.diax.comportment.jdacommand.Command
 import me.diax.comportment.jdacommand.CommandAttribute
 import me.diax.comportment.jdacommand.CommandDescription
 import me.greggkr.euna.Euna
+import me.greggkr.euna.modlog.LogEntry
+import me.greggkr.euna.modlog.ModAction
+import me.greggkr.euna.modlog.ModLogHandler
 import me.greggkr.euna.util.Emoji
 import net.dv8tion.jda.core.entities.Message
 
@@ -41,7 +44,8 @@ class BanCommand : Command {
             return
         }
 
-        channel.sendMessage("${Emoji.WHITE_CHECK_MARK} `${message.author.name + "#" + message.author.discriminator}` banned `${member.user.name + "#" + member.user.discriminator}` for `$reason`.").queue()
         message.guild.controller.ban(member, 0, reason).queue()
+        channel.sendMessage("${Emoji.WHITE_CHECK_MARK} `${message.author.name + "#" + message.author.discriminator}` banned `${member.user.name + "#" + member.user.discriminator}` for `$reason`.").queue()
+        ModLogHandler.log(guild, LogEntry(ModAction.BAN, message.author, member.user, reason))
     }
 }

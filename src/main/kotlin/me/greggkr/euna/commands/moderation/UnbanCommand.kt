@@ -4,6 +4,9 @@ import me.diax.comportment.jdacommand.Command
 import me.diax.comportment.jdacommand.CommandAttribute
 import me.diax.comportment.jdacommand.CommandDescription
 import me.greggkr.euna.Euna
+import me.greggkr.euna.modlog.LogEntry
+import me.greggkr.euna.modlog.ModAction
+import me.greggkr.euna.modlog.ModLogHandler
 import me.greggkr.euna.util.Emoji
 import net.dv8tion.jda.core.entities.Message
 
@@ -18,7 +21,7 @@ class UnbanCommand : Command {
         val channel = message.channel
 
         if (a.isEmpty()) {
-            channel.sendMessage(String.format("${Emoji.X} Correct Usage: %sunban <user> ", Euna.data.getPrefix(guild))).queue()
+            channel.sendMessage(String.format("${Emoji.X} Correct Usage: %sunban <user>", Euna.data.getPrefix(guild))).queue()
             return
         }
 
@@ -38,5 +41,6 @@ class UnbanCommand : Command {
 
         channel.sendMessage("${Emoji.WHITE_CHECK_MARK} `${message.author.name + "#" + message.author.discriminator}` unbanned `${user.name + "#" + user.discriminator}`.").queue()
         guild.controller.unban(user).queue()
+        ModLogHandler.log(guild, LogEntry(ModAction.UNBAN, message.author, user))
     }
 }

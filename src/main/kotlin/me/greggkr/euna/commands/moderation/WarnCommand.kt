@@ -4,6 +4,9 @@ import me.diax.comportment.jdacommand.Command
 import me.diax.comportment.jdacommand.CommandAttribute
 import me.diax.comportment.jdacommand.CommandDescription
 import me.greggkr.euna.Euna
+import me.greggkr.euna.modlog.Action
+import me.greggkr.euna.modlog.LogEntry
+import me.greggkr.euna.modlog.ModLogHandler
 import me.greggkr.euna.util.Emoji
 import net.dv8tion.jda.core.entities.Message
 
@@ -37,5 +40,6 @@ class WarnCommand : Command {
         val member = message.mentionedMembers[0]
 
         channel.sendMessage("${Emoji.WHITE_CHECK_MARK} `${message.author.name + "#" + message.author.discriminator}` warned `${member.user.name + "#" + member.user.discriminator}` for `$reason`.").queue()
+        ModLogHandler.log(guild, LogEntry(Action.WARN, message.author, member.user, reason))
     }
 }
