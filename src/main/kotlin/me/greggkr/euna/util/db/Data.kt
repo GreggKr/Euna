@@ -1,7 +1,6 @@
 package me.greggkr.euna.util.db
 
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonObject
 import me.greggkr.euna.Euna
 import me.greggkr.euna.util.Pet
 import net.dv8tion.jda.core.entities.*
@@ -182,5 +181,23 @@ class Data(private val db: Database) {
 
     fun setModLog(guild: Guild, channel: MessageChannel) {
         db.setModLog(guild.id, channel.idLong)
+    }
+
+    fun removeModLog(guild: Guild) {
+        db.removeModLog(guild.id)
+    }
+
+    fun getActionLog(guild: Guild): TextChannel? {
+        val id = db.getActionLog(guild.id) ?: return null
+
+        return guild.getTextChannelById(id)
+    }
+
+    fun setActionLog(guild: Guild, channel: MessageChannel) {
+        db.setActionLog(guild.id, channel.idLong)
+    }
+
+    fun removeActionLog(guild: Guild) {
+        db.removeActionLog(guild.id)
     }
 }

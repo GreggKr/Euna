@@ -4,10 +4,10 @@ import me.diax.comportment.jdacommand.Command
 import me.diax.comportment.jdacommand.CommandAttribute
 import me.diax.comportment.jdacommand.CommandDescription
 import me.greggkr.euna.Euna
-import me.greggkr.euna.modlog.LogEntry
-import me.greggkr.euna.modlog.ModAction
-import me.greggkr.euna.modlog.ModLogHandler
+import me.greggkr.euna.util.modlog.ModActionHandler
 import me.greggkr.euna.util.Emoji
+import me.greggkr.euna.util.modlog.LogEntry
+import me.greggkr.euna.util.modlog.ModAction
 import net.dv8tion.jda.core.entities.Message
 
 @CommandDescription(name = "kick", triggers = [
@@ -46,6 +46,6 @@ class KickCommand : Command {
 
         message.guild.controller.kick(member, reason).queue()
         channel.sendMessage("${Emoji.WHITE_CHECK_MARK} `${message.author.name + "#" + message.author.discriminator}` kicked `${member.user.name + "#" + member.user.discriminator}` for `$reason`.").queue()
-        ModLogHandler.log(guild, LogEntry(ModAction.KICK, message.author, member.user, reason))
+        ModActionHandler.log(guild, LogEntry(ModAction.KICK, message.author, member.user, reason))
     }
 }

@@ -1,6 +1,7 @@
 package me.greggkr.euna
 
 import com.natpryce.konfig.ConfigurationProperties
+import me.greggkr.euna.handlers.ActionLogHandler
 import me.greggkr.euna.handlers.CommandHandler
 import me.greggkr.euna.handlers.PetBattleHandler
 import me.greggkr.euna.handlers.VoteHandler
@@ -36,12 +37,12 @@ class Euna {
                 config[Config.mongo.host],
                 config[Config.mongo.port]
         ))
-        
+
         handler.registerCommands(CommandReg().getCommands())
 
         jda = JDABuilder(AccountType.BOT)
                 .setToken(config[Config.bot.discordToken])
-                .addEventListener(CommandHandler(handler))
+                .addEventListener(CommandHandler(handler), ActionLogHandler())
                 .buildBlocking()
     }
 }

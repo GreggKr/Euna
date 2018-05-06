@@ -4,10 +4,10 @@ import me.diax.comportment.jdacommand.Command
 import me.diax.comportment.jdacommand.CommandAttribute
 import me.diax.comportment.jdacommand.CommandDescription
 import me.greggkr.euna.Euna
-import me.greggkr.euna.modlog.LogEntry
-import me.greggkr.euna.modlog.ModAction
-import me.greggkr.euna.modlog.ModLogHandler
+import me.greggkr.euna.util.modlog.ModActionHandler
 import me.greggkr.euna.util.Emoji
+import me.greggkr.euna.util.modlog.LogEntry
+import me.greggkr.euna.util.modlog.ModAction
 import net.dv8tion.jda.core.entities.Message
 
 @CommandDescription(name = "unban", triggers = [
@@ -41,6 +41,6 @@ class UnbanCommand : Command {
 
         channel.sendMessage("${Emoji.WHITE_CHECK_MARK} `${message.author.name + "#" + message.author.discriminator}` unbanned `${user.name + "#" + user.discriminator}`.").queue()
         guild.controller.unban(user).queue()
-        ModLogHandler.log(guild, LogEntry(ModAction.UNBAN, message.author, user))
+        ModActionHandler.log(guild, LogEntry(ModAction.UNBAN, message.author, user))
     }
 }

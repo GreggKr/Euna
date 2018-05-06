@@ -70,14 +70,42 @@ class SettingsCommand : Command {
 
             first.equals("modlog", true) -> {
                 if (message.mentionedChannels.isEmpty()) {
+                    if (args.size >= 2) { // 0 -> modlog, 1 -> "none"
+                        if (args[1].equals("none", true)) {
+                            Euna.data.removeModLog(guild)
+                            channel.sendMessage("${Emoji.WHITE_CHECK_MARK} Removed mod log.").queue()
+                            return
+                        }
+                    }
+
                     channel.sendMessage(String.format("${Emoji.X} Correct usage: %sssetings modlog <channel>", Euna.data.getPrefix(guild))).queue()
                     return
                 }
 
-                val modLogChannel = message.mentionedChannels[0]
+                val modLog = message.mentionedChannels[0]
 
-                Euna.data.setModLog(guild, modLogChannel)
-                channel.sendMessage("${Emoji.WHITE_CHECK_MARK} Set mod log to ${modLogChannel.asMention}.").queue()
+                Euna.data.setModLog(guild, modLog)
+                channel.sendMessage("${Emoji.WHITE_CHECK_MARK} Set mod log to ${modLog.asMention}.").queue()
+            }
+
+            first.equals("actionLog", true) -> {
+                if (message.mentionedChannels.isEmpty()) {
+                    if (args.size >= 2) { // 0 -> actionlog, 1 -> "none"
+                        if (args[1].equals("none", true)) {
+                            Euna.data.removeActionLog(guild)
+                            channel.sendMessage("${Emoji.WHITE_CHECK_MARK} Removed action log.").queue()
+                            return
+                        }
+                    }
+
+                    channel.sendMessage(String.format("${Emoji.X} Correct usage: %sssetings actionlog <channel>", Euna.data.getPrefix(guild))).queue()
+                    return
+                }
+
+                val actionLog = message.mentionedChannels[0]
+
+                Euna.data.setActionLog(guild, actionLog)
+                channel.sendMessage("${Emoji.WHITE_CHECK_MARK} Set action log to ${actionLog.asMention}.").queue()
             }
 
             else -> {
@@ -89,6 +117,7 @@ class SettingsCommand : Command {
     private fun getHelpEmbed(guild: Guild): MessageEmbed {
         val modRole = Euna.data.getModRole(guild)
         val modLog = Euna.data.getModLog(guild)
+        val actionLog = Euna.data.getActionLog(guild)
 
         return EmbedBuilder()
                 .setColor(Euna.data.color)
@@ -96,6 +125,7 @@ class SettingsCommand : Command {
                 .addField("Prefix", Euna.data.getPrefix(guild), true)
                 .addField("Mod Role", if (modRole == null) "None" else modRole.asMention, true)
                 .addField("Mod Log", if (modLog == null) "None" else modLog.asMention, true)
+                .addField("Action Log", if (actionLog == null) "None" else actionLog.asMention, true)
                 .build()
     }
 }

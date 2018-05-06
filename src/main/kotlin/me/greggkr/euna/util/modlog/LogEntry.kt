@@ -1,4 +1,4 @@
-package me.greggkr.euna.modlog
+package me.greggkr.euna.util.modlog
 
 import net.dv8tion.jda.core.entities.User
 import java.time.Instant

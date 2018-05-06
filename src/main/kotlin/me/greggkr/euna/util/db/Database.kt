@@ -101,13 +101,35 @@ class Database(user: String,
     }
 
     fun getModLog(id: String): Long? {
-        val doc = getDoc(id, "modlogs") ?: return null
-        return doc["channel"] as Long?
+        val doc = getDoc(id, "logs") ?: return null
+        return doc["modlog"] as Long?
     }
 
     fun setModLog(id: String, channel: Long) {
-        val doc = getDoc(id, "modlogs") ?: Document()
-        saveField(id, "modlogs", doc.append("channel", channel))
+        val doc = getDoc(id, "logs") ?: Document()
+        saveField(id, "logs", doc.append("modlog", channel))
+    }
+
+    fun removeModLog(id: String) {
+        val doc = getDoc(id, "logs") ?: return
+        doc.remove("modlog")
+        saveField(id, "logs", doc)
+    }
+
+    fun getActionLog(id: String): Long? {
+        val doc = getDoc(id, "logs") ?: return null
+        return doc["actionlog"] as Long?
+    }
+
+    fun setActionLog(id: String, channel: Long) {
+        val doc = getDoc(id, "logs") ?: Document()
+        saveField(id, "logs", doc.append("actionlog", channel))
+    }
+
+    fun removeActionLog(id: String) {
+        val doc = getDoc(id, "logs") ?: return
+        doc.remove("actionlog")
+        saveField(id, "logs", doc)
     }
 
     private fun getDoc(id: String, collection: String): Document? {
