@@ -2,6 +2,8 @@ package me.greggkr.euna.util
 
 import me.diax.comportment.jdacommand.Command
 import me.greggkr.euna.commands.admin.SettingsCommand
+import me.greggkr.euna.commands.admin.vote.AddVoteChannelCommand
+import me.greggkr.euna.commands.admin.vote.RemoveVoteChannelCommand
 import me.greggkr.euna.commands.econ.*
 import me.greggkr.euna.commands.extra.AboutCommand
 import me.greggkr.euna.commands.extra.HelpCommand
@@ -42,6 +44,7 @@ class CommandReg {
                 HugCommand(),
                 KissCommand(),
                 NSFWImageCommand(),
+                /* End Weeb */
 
                 /* Moderation */
                 KickCommand(),
@@ -51,6 +54,10 @@ class CommandReg {
 
                 /* Admin */
                 SettingsCommand(),
+                /* Vote */
+                AddVoteChannelCommand(),
+                RemoveVoteChannelCommand(),
+                /* End Admin */
 
                 /* Owner */
                 EvalCommand()

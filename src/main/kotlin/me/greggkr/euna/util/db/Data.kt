@@ -200,4 +200,29 @@ class Data(private val db: Database) {
     fun removeActionLog(guild: Guild) {
         db.removeActionLog(guild.id)
     }
+
+    fun getVoteChannels(guild: Guild): List<Channel> {
+        val channels = db.getVoteChannels(guild.id) ?: ArrayList()
+
+        val new = ArrayList<Channel>()
+
+        for (channel in channels) {
+            val ch = guild.getTextChannelById(channel) ?: continue
+            new.add(ch)
+        }
+
+        return new
+    }
+
+    fun isVoteChannel(guild: Guild, channel: TextChannel): Boolean {
+        return getVoteChannels(guild).contains(channel)
+    }
+
+    fun addVoteChannel(guild: Guild, channel: MessageChannel) {
+        db.addVoteChannel(guild.id, channel.idLong)
+    }
+
+    fun removeVoteChannel(guild: Guild, channel: MessageChannel) {
+        db.removeVoteChannel(guild.id, channel.idLong)
+    }
 }

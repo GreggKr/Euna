@@ -9,6 +9,7 @@ import com.mongodb.ServerAddress
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.UpdateOptions
 import org.bson.Document
+import javax.print.Doc
 
 class Database(user: String,
                password: String,
@@ -130,6 +131,32 @@ class Database(user: String,
         val doc = getDoc(id, "logs") ?: return
         doc.remove("actionlog")
         saveField(id, "logs", doc)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun getVoteChannels(id: String): List<Long>? {
+        val doc = getDoc(id, "votechannels") ?: Document()
+        return doc["channels"] as ArrayList<Long>?
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun addVoteChannel(id: String, channel: Long) {
+        val doc = getDoc(id, "votechannels") ?: Document()
+        val current = doc["channels"] as ArrayList<Long>? ?: ArrayList()
+
+        current.add(channel)
+
+        saveField(id, "votechannels", doc.append("channels", current))
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun removeVoteChannel(id: String, channel: Long) {
+        val doc = getDoc(id, "votechannels") ?: Document()
+        val current = doc["channels"] as ArrayList<Long>? ?: ArrayList()
+
+        current.remove(channel)
+
+        saveField(id, "votechannels", doc.append("channels", current))
     }
 
     private fun getDoc(id: String, collection: String): Document? {

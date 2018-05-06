@@ -1,10 +1,7 @@
 package me.greggkr.euna
 
 import com.natpryce.konfig.ConfigurationProperties
-import me.greggkr.euna.handlers.ActionLogHandler
-import me.greggkr.euna.handlers.CommandHandler
-import me.greggkr.euna.handlers.PetBattleHandler
-import me.greggkr.euna.handlers.VoteHandler
+import me.greggkr.euna.handlers.*
 import me.greggkr.euna.util.CommandReg
 import me.greggkr.euna.util.Config
 import me.greggkr.euna.util.Ram
@@ -42,7 +39,7 @@ class Euna {
 
         jda = JDABuilder(AccountType.BOT)
                 .setToken(config[Config.bot.discordToken])
-                .addEventListener(CommandHandler(handler), ActionLogHandler())
+                .addEventListener(CommandHandler(handler), ActionLogHandler(), VoteChannelHandler())
                 .buildBlocking()
     }
 }
