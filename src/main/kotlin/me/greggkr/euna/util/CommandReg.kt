@@ -17,6 +17,7 @@ import me.greggkr.euna.commands.pet.PetCommand
 import me.greggkr.euna.commands.weeb.img.HugCommand
 import me.greggkr.euna.commands.weeb.img.KissCommand
 import me.greggkr.euna.commands.weeb.img.NSFWImageCommand
+import me.greggkr.euna.commands.weeb.img.NomCommand
 
 class CommandReg {
     private val commands = HashSet<Command>()
@@ -43,6 +44,7 @@ class CommandReg {
                 /* Image */
                 HugCommand(),
                 KissCommand(),
+                NomCommand(),
                 NSFWImageCommand(),
                 /* End Weeb */
 
