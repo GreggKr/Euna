@@ -1,4 +1,4 @@
-package me.greggkr.euna.commands.extra
+package me.greggkr.euna.commands.info
 
 import me.diax.comportment.jdacommand.Command
 import me.diax.comportment.jdacommand.CommandAttribute

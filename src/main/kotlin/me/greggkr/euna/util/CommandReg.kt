@@ -5,9 +5,9 @@ import me.greggkr.euna.commands.admin.SettingsCommand
 import me.greggkr.euna.commands.admin.vote.AddVoteChannelCommand
 import me.greggkr.euna.commands.admin.vote.RemoveVoteChannelCommand
 import me.greggkr.euna.commands.econ.*
-import me.greggkr.euna.commands.extra.AboutCommand
-import me.greggkr.euna.commands.extra.HelpCommand
-import me.greggkr.euna.commands.extra.StatsCommand
+import me.greggkr.euna.commands.info.AboutCommand
+import me.greggkr.euna.commands.info.HelpCommand
+import me.greggkr.euna.commands.info.StatsCommand
 import me.greggkr.euna.commands.moderation.*
 import me.greggkr.euna.commands.owner.EvalCommand
 import me.greggkr.euna.commands.pet.PetCommand

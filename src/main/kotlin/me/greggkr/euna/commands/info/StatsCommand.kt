@@ -1,6 +1,5 @@
-package me.greggkr.euna.commands.extra
+package me.greggkr.euna.commands.info
 
-import com.sun.management.OperatingSystemMXBean
 import me.diax.comportment.jdacommand.Command
 import me.diax.comportment.jdacommand.CommandAttribute
 import me.diax.comportment.jdacommand.CommandDescription
@@ -12,7 +11,6 @@ import net.dv8tion.jda.core.entities.Message
 import org.json.JSONArray
 import org.json.JSONObject
 import oshi.SystemInfo
-import java.lang.management.ManagementFactory
 import java.util.*
 
 @CommandDescription(name = "stats", triggers = [
