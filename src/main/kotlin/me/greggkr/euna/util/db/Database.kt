@@ -1,7 +1,5 @@
 package me.greggkr.euna.util.db
 
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonObject
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientOptions
 import com.mongodb.MongoCredential
@@ -9,7 +7,6 @@ import com.mongodb.ServerAddress
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.UpdateOptions
 import org.bson.Document
-import javax.print.Doc
 
 class Database(user: String,
                password: String,
@@ -22,10 +19,6 @@ class Database(user: String,
     private val client = MongoClient(ServerAddress(host, port), creds, MongoClientOptions.builder().build())
     private val database = client.getDatabase(dbName)
     private val updateOptions = UpdateOptions().upsert(true)
-
-    private val gson = GsonBuilder()
-            .setPrettyPrinting()
-            .create()
 
     fun getPrefix(id: String): String? {
         val doc = getDoc(id, "prefixes")
@@ -157,6 +150,26 @@ class Database(user: String,
         current.remove(channel)
 
         saveField(id, "votechannels", doc.append("channels", current))
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun getMutedUsers(id: String): ArrayList<Long>? {
+        val doc = getDoc(id, "muted") ?: return ArrayList()
+        return doc["users"] as ArrayList<Long>?
+    }
+
+    fun addMutedUser(id: String, user: Long) {
+        val users = getMutedUsers(id) ?: ArrayList()
+        users.add(user)
+
+        saveField(id, "muted", Document().append("users", users))
+    }
+
+    fun removeMutedUser(id: String, user: Long) {
+        val users = getMutedUsers(id) ?: ArrayList()
+        users.remove(user)
+
+        saveField(id, "muted", Document().append("users", users))
     }
 
     private fun getDoc(id: String, collection: String): Document? {

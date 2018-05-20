@@ -39,7 +39,10 @@ class Euna {
 
         jda = JDABuilder(AccountType.BOT)
                 .setToken(config[Config.bot.discordToken])
-                .addEventListener(CommandHandler(handler), ActionLogHandler(), VoteChannelHandler())
+                .addEventListener(CommandHandler(handler),
+                        ActionLogHandler(),
+                        VoteChannelHandler(),
+                        MuteRejoinHandler())
                 .buildBlocking()
     }
 }

@@ -214,6 +214,28 @@ class Data(private val db: Database) {
         return new
     }
 
+    fun getMutedUsers(guild: Guild): List<User> {
+        val users = ArrayList<User>()
+        val userIds = db.getMutedUsers(guild.id) ?: return ArrayList()
+
+        for (u in userIds) {
+            val user = guild.jda.getUserById(u)
+            if (user != null) {
+                users.add(user)
+            }
+        }
+
+        return users
+    }
+
+    fun addMutedUser(guild: Guild, user: User) {
+        db.addMutedUser(guild.id, user.idLong)
+    }
+
+    fun removeMutedUser(guild: Guild, user: User) {
+        db.removeMutedUser(guild.id, user.idLong)
+    }
+
     fun isVoteChannel(guild: Guild, channel: TextChannel): Boolean {
         return getVoteChannels(guild).contains(channel)
     }
