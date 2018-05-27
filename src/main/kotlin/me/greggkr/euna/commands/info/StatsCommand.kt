@@ -16,7 +16,7 @@ import java.util.*
 @CommandDescription(name = "stats", triggers = [
     "stats"
 ], attributes = [
-    CommandAttribute(key = "extra")
+    CommandAttribute(key = "info")
 ], description = "Displays useful statistics about Euna")
 class StatsCommand : Command {
     override fun execute(message: Message, a: String) {

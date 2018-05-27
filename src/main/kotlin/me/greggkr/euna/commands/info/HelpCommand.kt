@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.entities.Message
 @CommandDescription(name = "help", triggers = [
     "help"
 ], attributes = [
-    CommandAttribute(key = "extra")
+    CommandAttribute(key = "info")
 ], description = "Displays helpful information about the bot.")
 class HelpCommand : Command {
     override fun execute(message: Message, a: String) {
@@ -32,7 +32,7 @@ class HelpCommand : Command {
 
         sb.append("\n**Extra**\n")
 
-        for (c in Euna.handler.commands.filter { it.hasAttribute("extra") && !it.hasAttribute("noHelp") }) {
+        for (c in Euna.handler.commands.filter { it.hasAttribute("info") && !it.hasAttribute("noHelp") }) {
             sb.append("$prefix${c.description.name}\n")
         }
 
