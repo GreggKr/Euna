@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.entities.Message
 @CommandDescription(name = "about", triggers = [
     "about", "info"
 ], attributes = [
-    CommandAttribute(key = "extra")
+    CommandAttribute(key = "info")
 ], description = "Displays information about the bot.")
 class AboutCommand : Command {
     override fun execute(message: Message, a: String) {
