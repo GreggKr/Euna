@@ -1,6 +1,7 @@
 package me.greggkr.euna.util.db
 
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
 import me.greggkr.euna.Euna
 import me.greggkr.euna.util.Pet
 import net.dv8tion.jda.core.entities.*
@@ -64,7 +65,7 @@ class Data(private val db: Database) {
     fun setPrefix(guild: Guild, prefix: String) {
         db.setPrefix(guild.id, prefix)
 
-        storedPrefixes.put(guild.id, prefix)
+        storedPrefixes[guild.id] = prefix
     }
 
     fun getOwner(): String {
@@ -152,9 +153,9 @@ class Data(private val db: Database) {
 
     fun getPet(user: User): Pet? {
         val petJson = db.getPet(user.id)
-        if (petJson.isNullOrEmpty()) return null
+        val pet = gson.fromJson(petJson, JsonObject::class.java)
 
-        return gson.fromJson(petJson, Pet::class.java)
+        return if (pet.has("owner")) gson.fromJson(petJson, Pet::class.java) else null
     }
 
     fun setPet(user: User, pet: Pet) {

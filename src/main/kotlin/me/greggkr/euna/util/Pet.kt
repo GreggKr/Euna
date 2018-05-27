@@ -7,7 +7,7 @@ data class Pet(
         val name: String,
         val xp: Int,
         val type: String,
-        val health: Int,
+        var health: Int,
         val attack: Int,
         val speed: Int,
         @SerializedName("current_love") val currentLove: Int,
@@ -56,6 +56,11 @@ data class Pet(
 
         fun setSpeed(speed: Int): Builder {
             this.speed = speed
+            return this
+        }
+
+        fun setCurrentLove(currentLove: Int): Builder {
+            this.currentLove = currentLove
             return this
         }
 

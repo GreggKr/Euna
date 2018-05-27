@@ -47,15 +47,18 @@ class PetCommand : Command {
         } else {
             val first = args[0].toLowerCase()
             when (first) {
-                "test" -> {
-                    val pet = Pet.Builder()
-                            .setOwner(author.id)
-                            .setAttack(55)
-                            .build()!!
-
-                    Euna.data.setPet(author, pet)
-                }
                 "battle" -> when {
+                    args[1].toLowerCase() == "fake" -> {
+                        val pet1 = Euna.data.getPet(author)!!
+                        val pet2 = Pet.Builder()
+                                .setOwner("301424917474443264")
+                                .setName("[FAKE] yeet")
+                                .setAttack(10)
+                                .setHealth(100)
+                                .build()!!
+                        Euna.battleHandler.battle(channel, pet1, pet2)
+                    }
+
                     args[1].toLowerCase() == "accept" -> {
                         val users = FinderUtil.findUsers(a, message.jda)
                         if (users.isEmpty()) {
@@ -74,7 +77,21 @@ class PetCommand : Command {
 
                         channel.sendMessage("starting battle between ${author.name} and ${user.name}").queue()
 
+                        val pet1 = Euna.data.getPet(user)
+                        val pet2 = Euna.data.getPet(author)
+
+                        if (pet1 == null) {
+                            channel.sendMessage("${Emoji.X} `${user.name}#${user.discriminator}` does not have a pet.").queue()
+                            return
+                        }
+
+                        if (pet2 == null) {
+                            channel.sendMessage("${Emoji.X} You do not have a pet.").queue()
+                            return
+                        }
+
                         // start battle
+                        Euna.battleHandler.battle(channel, pet1, pet2)
                     }
 
                     args[1].toLowerCase() == "deny" -> {
@@ -97,8 +114,9 @@ class PetCommand : Command {
                     }
 
                     else -> {
-                        if (args.size < 3) { // 0 -> battle, 1-x -> name, last -> amount
+                        if (args.size < 2) { // 0 -> battle, 1-x -> name
                             channel.sendMessage("${Emoji.X} Invalid usage.").queue()
+                            return
                         }
 
                         val petOne = Euna.data.getPet(author)
@@ -108,7 +126,7 @@ class PetCommand : Command {
                             return
                         }
 
-                        val users = FinderUtil.findUsers(a, message.jda)
+                        val users = message.mentionedUsers
                         if (users.isEmpty()) {
                             channel.sendMessage("${Emoji.X} User not found.").queue()
                             return
@@ -134,6 +152,7 @@ class PetCommand : Command {
                         Euna.battleHandler.add(author, user)
                     }
                 }
+
                 "pat" -> {
                     val pet = Euna.data.getPet(author)
 
@@ -144,6 +163,7 @@ class PetCommand : Command {
 
                     channel.sendMessage("*pat pat*").queue()
                 }
+
                 "cuddle" -> {
                     val pet = Euna.data.getPet(author)
 
@@ -154,6 +174,7 @@ class PetCommand : Command {
 
                     channel.sendMessage("*nuzzle nuzzle*").queue()
                 }
+
                 "hug" -> {
                     val pet = Euna.data.getPet(author)
 
