@@ -20,5 +20,5 @@ class VoteHandler {
         }, 1, TimeUnit.DAYS)
     }
 
-    fun isIn(user: User): Boolean = recentVotes.contains(user)
+    fun isIn(user: User) = recentVotes.contains(user)
 }
