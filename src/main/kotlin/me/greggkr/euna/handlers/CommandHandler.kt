@@ -21,7 +21,7 @@ class CommandHandler(private val handler: CommandHandler) : ListenerAdapter() {
         val channel = e.channel
 
         if (message == e.guild.selfMember.asMention) {
-            channel.sendMessage("Hello ${e.author.asMention}, my name is Euna and my prefix here is **e!**. If you need any additional help, you can use e!help.").queue()
+            channel.sendMessage("Hello ${e.author.asMention}, my name is Euna and my prefix here is **$prefix**. If you need any additional help, you can use ${prefix}help.").queue()
             return
         }
 

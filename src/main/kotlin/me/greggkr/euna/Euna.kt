@@ -12,20 +12,22 @@ import net.dv8tion.jda.core.JDA
 import net.dv8tion.jda.core.JDABuilder
 import java.io.File
 
-class Euna {
+class Euna(val devMode: Boolean) {
     companion object {
         lateinit var jda: JDA
         lateinit var config: ConfigurationProperties
         lateinit var data: Data
-        val voteHandler = VoteHandler()
 
+
+        val voteHandler = VoteHandler()
         val handler = me.diax.comportment.jdacommand.CommandHandler()
         val battleHandler = PetBattleHandler()
         val ram = Ram()
     }
 
     fun start() {
-        config = ConfigurationProperties.fromFile(File("config.properties"))
+        config = ConfigurationProperties.fromFile(File("config.properties${if (devMode) ".dev" else ""}"))
+
         data = Data(Database(
                 config[Config.mongo.user],
                 config[Config.mongo.password],
@@ -48,5 +50,5 @@ class Euna {
 }
 
 fun Array<String>.main() {
-    Euna().start()
+    Euna(this.isNotEmpty() && this[0].equals("dev", true)).start()
 }

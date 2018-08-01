@@ -68,3 +68,4 @@ modules.xml
 .idea/
 .gradle/
 config.properties
+config.properties.dev

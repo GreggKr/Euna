@@ -11,7 +11,7 @@ class PetBattleHandler {
     fun battle(channel: MessageChannel, pet1: Pet, pet2: Pet) {
         // battle sequence
         // TODO: speed + randomness
-        var turn: Int = 1
+        var turn = 1
         while (pet1.health > 0 && pet2.health > 0) {
             pet2.health -= pet1.attack
             channel.sendMessage("[T$turn] ${pet1.name} attacked ${pet2.name} for ${pet1.attack} attack. ${pet2.name}'s health is now: ${pet2.health}hp").queue()

@@ -103,7 +103,7 @@ class Data(private val db: Database) {
     }
 
     fun getVotingStreak(user: User): Int {
-        return db.getVotingStreak(user.id)
+        return db.getVotingStreak(user.id) ?: 0
     }
 
     fun setVotingStreak(user: User, amount: Int) {

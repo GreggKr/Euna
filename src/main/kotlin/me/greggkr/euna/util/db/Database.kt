@@ -53,9 +53,9 @@ class Database(user: String,
         return if (doc == null) null else doc["chances"] as Map<Pair<Double, String>, Double>
     }
 
-    fun getVotingStreak(id: String): Int {
+    fun getVotingStreak(id: String): Int? {
         val doc = getGlobalDoc("votingstreaks")
-        return if (doc == null) 0 else doc[id] as Int
+        return if (doc == null) 0 else doc[id] as Int?
     }
 
     fun setVotingStreak(id: String, amount: Int) {

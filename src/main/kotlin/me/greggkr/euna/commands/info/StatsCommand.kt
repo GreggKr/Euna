@@ -125,10 +125,6 @@ class StatsCommand : Command {
                 message.addReaction(Emoji.WHITE_CHECK_MARK.unicode).queue()
             }
 
-            !a.isEmpty() && a.contains("more", true) -> {
-
-            }
-
             else -> {
                 var users = 0
 
